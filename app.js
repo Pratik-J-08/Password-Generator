@@ -40,7 +40,6 @@ handleSlider();
     //Shadow to be added on
  }
 
-
  function getRndInteger(min, max) {
    return Math.floor( Math.random() * (max-min) )+min;
  }
@@ -62,3 +61,44 @@ handleSlider();
     return symbols.charAt(randomNumber);
  }
 
+//Strength Indicator Logic
+ function calcStrength(){
+   
+   let hasUpper = false ;
+   let hasLower = false ;
+   let hasNum = false ;
+   let hasSym = false ;
+
+    if(UpperCheck.checked) hasUpper = true;
+    if(lowerCheck.checked) hasLower = true;
+    if(numbersCheck.checked) hasNum = true;
+    if(symbolCheck.checked) hasSym = true;
+
+   if (hasUpper && hasLower && (hasNum || hasSym) && passwordLength >=8){
+      setIndicator("#0f0");
+   }
+   else if ((hasLower || hasUpper) && (hasNum || hasSym) && passwordLength>=6){
+      setIndicator("#ff0");
+   }
+   else{
+      setIndicator("#f00");
+   }
+
+ }
+
+//Copy password from clipboard
+ async function copyContent(){
+   //Error handling
+   try{
+         await navigator.clipboard.writeText(passwordDisplay.value);
+         copyMsg.innerText = "Copied" ; 
+   }
+   catch(e){
+       copyMsg.innerText = "Please try again"; 
+   }
+
+      copyMsg.classList.add("active");
+      setTimeout( ()=> {
+         copyMsg.classList.remove("active");
+      } ,2000);
+ }
