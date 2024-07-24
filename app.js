@@ -102,3 +102,85 @@ handleSlider();
          copyMsg.classList.remove("active");
       } ,2000);
  }
+
+
+inputSlider.addEventListener('input', (e =>{
+   passwordLength=e.target.value;
+   handleSlider();
+}));
+
+copyBtn.addEventListener('click',()=>{
+   if(passwordDisplay.value)
+      copyContent(); 
+});
+
+function handleCheckBoxChange(){
+ checkCount=0;
+ allCheckBox.forEach((checkbox)=>{
+      if(checkbox.checked)
+         checkCount++;
+ });
+}
+
+//edge condition
+ if(passwordLength<checkCount){
+   passwordLength=checkCount;
+   handleSlider();
+ }
+
+
+
+allCheckBox.forEach((checkbox)=>{
+   checkbox.addEventListener('change',handleCheckBoxChange);
+})
+
+
+function shufflePassword(){
+
+}
+
+
+//Generate password logic
+generateBtn.addEventListener('click',()=>{
+   //none of checkbox ticked
+   if (checkCount<=0) return;
+   
+   if(passwordLength<checkCount){
+      passwordLength = checkCount;
+      handleSlider(); 
+   }
+
+   //Remove old password
+   password="";
+
+
+   let funArr = [];
+
+   if(UpperCheck.checked)
+      funArr.push[generateUpperCase];
+
+   if(lowerCheck.checked)
+      funArr.push[generateLowerCase];
+
+   if(numbersCheck.checked)
+      funArr.push[generateRandomNumber];
+
+   if(symbolCheck.checked)
+      funArr.push[generateSymbol];
+
+   for(let i=0 ; i<funArr.length; i++){
+      password = funArr[i]();
+   }
+
+   //remaning password
+    for (let i=0; i<passwordLength-funArr.length; i++){
+      let randIndex = getRndInteger(0,funArr.length);
+      password+=funArr[randIndex]();
+    }
+
+
+    password=shufflePassword(Array.from(password));
+    passwordDisplay.value=password;
+    calcStrength();
+
+});
